@@ -441,7 +441,7 @@ contains
        call shr_stream_getStreamFieldList(sdat%stream(ns), sdat%pstrm(ns)%fldlist_stream)
 
        ! Create field bundles on model mesh
-       if (sdat%stream(ns)%readmode=='single') then
+       if (trim(sdat%stream(ns)%readmode)=='single') then
           sdat%pstrm(ns)%stream_lb = 1
           sdat%pstrm(ns)%stream_ub = 2
           allocate(sdat%pstrm(ns)%fldbun_data(2))
@@ -449,7 +449,7 @@ contains
              write(sdat%stream(1)%logunit,'(a,i8)') trim(subname)//" Creating field bundle array fldbun_data of size 2 for stream ",&
                   ns
           end if
-       else if(sdat%stream(ns)%readmode=='full_file') then
+       else if(trim(sdat%stream(ns)%readmode)=='full_file') then
           ! TODO: add this in
        endif
 
@@ -929,7 +929,7 @@ contains
 
           call ESMF_TraceRegionEnter(trim(lstr)//trim(timname)//'_readLBUB')
 
-          select case(sdat%stream(ns)%readmode)
+          select case(trim(sdat%stream(ns)%readmode))
           case ('single')
              call shr_strdata_readLBUB(sdat, ns, ymdmod(ns), todmod, newData(ns), trim(lstr)//'_readLBUB', rc=rc)
              if (ChkErr(rc,__LINE__,u_FILE_u)) return
